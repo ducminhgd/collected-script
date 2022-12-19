@@ -13,16 +13,7 @@ if __name__ == '__main__':
     projects: List[Project] = GL_CLIENT.projects.list(all=True)
     for _project in projects:
         try:
-            p_branch = _project.protectedbranches.get('releases/*')
-            p_branch.delete()
-        except:
-            pass
-        try:
-            p_branch = _project.protectedbranches.create({
-                'name': 'release/*',
-                'merge_access_level': const.AccessLevel.MAINTAINER,
-                'push_access_level': const.AccessLevel.NO_ACCESS,
-            })
+            _project.protectedtags.create({'name': '*', 'create_access_level': const.MAINTAINER_ACCESS})
             print(f'{_project.name}\t: Done')
         except:
-            print(f'{_project.name}\t: existed')
+            print(f'{_project.name}\t: Error')
