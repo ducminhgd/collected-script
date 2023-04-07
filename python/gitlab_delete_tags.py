@@ -2,7 +2,7 @@ import os
 from typing import List
 from gitlab import Gitlab
 from gitlab.exceptions import GitlabDeleteError
-from gitlab.v4.objects import Project, ProjectBranch
+from gitlab.v4.objects import Project
 
 PROJECT_IDS = [
     # 19,  # Workloads
@@ -17,8 +17,8 @@ GL_CLIENT = Gitlab(
     job_token=os.environ.get('GITLAB_JOB_TOKEN', None)
 )
 
-DELETE_BRACHES = [
-    # "release/1.51.0",
+DELETE_TAGS = [
+    # "v1.51.0",
 ]
 
 if __name__ == '__main__':
@@ -37,9 +37,9 @@ if __name__ == '__main__':
     for pid in PROJECT_IDS:
         project: Project = GL_CLIENT.projects.get(pid)
         print('PROJECT: ' + project.name)
-        for branch in DELETE_BRACHES:
+        for delete_item in DELETE_TAGS:
             try:
-                project.branches.delete(branch)
-                print(f'\t{branch}: DELETED')
+                project.tags.delete(delete_item)
+                print(f'\t{delete_item}: DELETED')
             except GitlabDeleteError:
                 ...

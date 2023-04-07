@@ -22,5 +22,6 @@ if __name__ == '__main__':
             continue
         _project.merge_method = 'ff'
         _project.squash_option = 'default_on'
+        _project.remove_source_branch_after_merge = True
         _project.save()
         print(f'{_project.name}\t:\tDone')
